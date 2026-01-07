@@ -3,14 +3,15 @@ import styles from './TodoLists.module.scss';
 import Loading from '../../UI/Loading/Loading';
 import FormInput from '../FormInput/FormInput';
 import MyButton from '../../UI/MyButton/MyButton';
+import ModalWarning from '../../UI/ModalWarning/ModalWarning';
 
 const TodoLists = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchValueTask, setSearchValueTask] = useState('');
   const [message, setMessage] = useState('');
-
-  console.log(tasks);
+  const [showModalConfirm, setShowModalConfirm] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState(null);
 
   useEffect(() => {
     const savedTasks = localStorage.getItem('tasks');
@@ -55,6 +56,18 @@ const TodoLists = () => {
     setTasks((prev) => prev.filter((task) => task.id !== id));
     setMessage('❌ Task for delete!');
     clearMessage();
+    setShowModalConfirm(false);
+  };
+
+  const handleConfirmModalDelete = (id) => {
+    setTaskToDelete(id);
+    setShowModalConfirm(true);
+
+    // () => handleDeleteTask(item.id)
+  };
+
+  const handleConfirmModalCancel = () => {
+    setShowModalConfirm(false);
   };
 
   return (
@@ -80,12 +93,28 @@ const TodoLists = () => {
             <li className={styles.listItem} key={item.id}>
               <span className={styles.index}>{index + 1}:</span>
               <span className={styles.body}>{item.body}</span>
-              <MyButton onClick={() => handleDeleteTask(item.id)} variant="danger">
+              <MyButton onClick={() => handleConfirmModalDelete(item.id)} variant="danger">
                 Delete
               </MyButton>
             </li>
           ))}
         </ul>
+      )}
+      {showModalConfirm && (
+        <ModalWarning
+          actions={
+            <>
+              <MyButton onClick={() => handleDeleteTask(taskToDelete)} variant="danger">
+                Yes
+              </MyButton>
+              <MyButton onClick={handleConfirmModalCancel} variant="success">
+                No
+              </MyButton>
+            </>
+          }
+        >
+          <p>Are you sure you want to delete the task?</p>
+        </ModalWarning>
       )}
     </div>
   );

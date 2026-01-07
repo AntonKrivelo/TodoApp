@@ -20,6 +20,9 @@
 .success {
   background-color: #28a745;
   color: white;
+  &:hover {
+    background-color: #1e7d34;
+  }
 }
 .danger {
   background-color: #dc3545;
