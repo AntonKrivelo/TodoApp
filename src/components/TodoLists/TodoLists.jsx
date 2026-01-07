@@ -10,6 +10,8 @@ const TodoLists = () => {
   const [searchValueTask, setSearchValueTask] = useState('');
   const [message, setMessage] = useState('');
 
+  console.log(tasks);
+
   useEffect(() => {
     const savedTasks = localStorage.getItem('tasks');
     if (savedTasks) {
