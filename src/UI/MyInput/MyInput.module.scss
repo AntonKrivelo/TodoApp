@@ -20,3 +20,13 @@
     color: #aaa;
   }
 }
+
+.errorMessage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: red;
+  padding-top: 5px;
+  font-weight: 600;
+}

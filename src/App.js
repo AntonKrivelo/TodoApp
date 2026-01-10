@@ -1,5 +1,6 @@
 import TodoLists from './components/TodoLists/TodoLists';
-
+import AuthPage from './pages/AuthPage/AuthPage';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
 
 function App() {
@@ -7,7 +8,11 @@ function App() {
     <div className="App">
       <div className="container">
         <h2 style={{ textAlign: 'center', textTransform: 'uppercase' }}>Todo App</h2>
-        <TodoLists />
+        <hr className="hr" />
+        <Routes>
+          <Route path="/tasks" element={<TodoLists />} />
+          <Route path="/auth" element={<AuthPage />} />
+        </Routes>
       </div>
     </div>
   );

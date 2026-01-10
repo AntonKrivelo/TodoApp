@@ -16,6 +16,9 @@
 .secondary {
   background-color: #6c757d;
   color: white;
+  &:hover {
+    background-color: #5c646b;
+  }
 }
 .success {
   background-color: #28a745;

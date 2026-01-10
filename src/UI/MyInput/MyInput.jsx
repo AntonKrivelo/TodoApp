@@ -1,11 +1,10 @@
 import styles from './MyInput.module.scss';
 
-const MyInput = ({ children, ...props }) => {
+const MyInput = ({ error, helperText, ...props }) => {
   return (
     <div>
-      <input className={styles.MyInput} {...props}>
-        {children}
-      </input>
+      <input className={styles.MyInput} {...props} />
+      {error && <span className={styles.errorMessage}>{helperText}</span>}
     </div>
   );
 };
