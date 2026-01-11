@@ -17,9 +17,13 @@ const Menu = () => {
     <nav className={styles.menu}>
       <ul className={styles.menuList}>
         <li className={styles.menuListItem}>
-          <Link to="/tasks">
-            <MyButton>My Tasks</MyButton>
-          </Link>
+          {!token ? (
+            ''
+          ) : (
+            <Link to="/tasks">
+              <MyButton>My Tasks</MyButton>
+            </Link>
+          )}
         </li>
         <li className={styles.menuListItem}>
           <Link to="/auth">
@@ -28,7 +32,9 @@ const Menu = () => {
         </li>
         {token && (
           <li className={styles.menuListItem}>
-            <MyButton onClick={handleLogout}>Logout</MyButton>
+            <MyButton variant="danger" onClick={handleLogout}>
+              Logout
+            </MyButton>
           </li>
         )}
       </ul>
