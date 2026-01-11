@@ -1,4 +1,6 @@
 import { useForm } from 'react-hook-form';
+import { useContext } from 'react';
+import { AuthContext } from '../../UI/AuthContext/AuthContext';
 import MyInput from '../../UI/MyInput/MyInput';
 import MyButton from '../../UI/MyButton/MyButton';
 import styles from './RegisterForm.module.scss';
@@ -11,9 +13,30 @@ const RegisterForm = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    reset();
+  const { login } = useContext(AuthContext);
+
+  const onSubmit = async (data) => {
+    try {
+      const res = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        // сразу логиним пользователя
+        login({ token: result.token, user: result });
+        alert('✅ Регистрация успешна, вы вошли в систему!');
+        reset();
+      } else {
+        alert(`❌ Ошибка: ${result.message}`);
+      }
+    } catch (error) {
+      console.error('Ошибка запроса:', error);
+      alert('❌ Не удалось подключиться к серверу');
+    }
   };
 
   return (

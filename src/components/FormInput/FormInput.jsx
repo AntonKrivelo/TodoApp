@@ -17,7 +17,10 @@ const FormInput = ({ setTasks, searchValueTask, setSearchValueTask, setMessage, 
     e.preventDefault();
     if (!valueTask.trim())
       return setError('Fill in the field "Value to Enter Task..."') || clearMessageError();
-    setTasks((prev) => [{ id: crypto.randomUUID(), body: valueTask }, ...prev]);
+    setTasks((prev) => [
+      { id: crypto.randomUUID(), body: valueTask, createdAt: new Date().toISOString() },
+      ...prev,
+    ]);
     setValueTask('');
     setMessage('✅ Task added!');
     clearMessage();
