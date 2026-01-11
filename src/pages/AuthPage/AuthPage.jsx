@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import RegisterForm from '../../components/RegisterForm/RegisterForm';
 import MyButton from '../../UI/MyButton/MyButton';
-import styles from './AuthPage.module.scss';
 import LoginForm from '../../components/LoginForm/LoginForm';
+import styles from './AuthPage.module.scss';
 
 const AuthPage = () => {
   const [isRegister, setIsRegister] = useState(false);

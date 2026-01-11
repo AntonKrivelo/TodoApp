@@ -12,6 +12,7 @@ const TodoLists = () => {
   const [message, setMessage] = useState('');
   const [showModalConfirm, setShowModalConfirm] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
+  const [sortOrder, setSortOrder] = useState('desc');
 
   useEffect(() => {
     const savedTasks = localStorage.getItem('tasks');
@@ -62,14 +63,17 @@ const TodoLists = () => {
   const handleConfirmModalDelete = (id) => {
     setTaskToDelete(id);
     setShowModalConfirm(true);
-
-    // () => handleDeleteTask(item.id)
   };
 
   const handleConfirmModalCancel = () => {
     setShowModalConfirm(false);
   };
 
+  const handleSortTasksData = () => {};
+
+  const sortedTasks = [...filteredLists].sort((a, b) =>
+    sortOrder === 'desc' ? b.createdAt - a.createdAt : a.createdAt - b.createdAt,
+  );
   return (
     <div>
       <FormInput
@@ -93,6 +97,9 @@ const TodoLists = () => {
             <li className={styles.listItem} key={item.id}>
               <span className={styles.index}>{index + 1}:</span>
               <span className={styles.body}>{item.body}</span>
+              <span>
+                <b>Created:</b> {new Date(item.createdAt).toLocaleString()}
+              </span>
               <MyButton onClick={() => handleConfirmModalDelete(item.id)} variant="danger">
                 Delete
               </MyButton>

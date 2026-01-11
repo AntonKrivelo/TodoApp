@@ -1,4 +1,6 @@
 import { useForm } from 'react-hook-form';
+import { useContext } from 'react';
+import { AuthContext } from '../../UI/AuthContext/AuthContext';
 import MyInput from '../../UI/MyInput/MyInput';
 import MyButton from '../../UI/MyButton/MyButton';
 import styles from './LoginForm.module.scss';
@@ -11,28 +13,35 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    reset();
+  const { login } = useContext(AuthContext);
+
+  const onSubmit = async (data) => {
+    try {
+      const res = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        login(result);
+        alert('✅ Успешный вход!');
+        reset();
+      } else {
+        alert(`❌ Ошибка: ${result.message}`);
+      }
+    } catch (error) {
+      console.error('Ошибка запроса:', error);
+      alert('❌ Не удалось подключиться к серверу');
+    }
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <h2>Login user</h2>
-        <MyInput
-          {...register('username', {
-            required: 'Username is required!',
-            minLength: {
-              value: 2,
-              message: 'The name must contain at least 2 characters.',
-            },
-          })}
-          type="text"
-          placeholder="Username"
-          error={!!errors.username}
-          helperText={errors.username ? errors.username.message : ''}
-        />
         <MyInput
           {...register('email', {
             required: 'Email is required!',
